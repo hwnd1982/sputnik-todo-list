@@ -68,7 +68,7 @@ export type Payload = Fulfilled | Rejected;
 export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSlice> = (set, get) => ({
   tasks: {
     list: [],
-    page: 1,
+    page: 0,
     sort: "createdAt",
     filter: "all",
     end: false,
@@ -100,7 +100,7 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
       tasks: {
         ...tasks,
         filter,
-        page: 1,
+        page: 0,
         end: false,
       },
     });
@@ -112,7 +112,7 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
     const request =
       get().server.request ||
       `${import.meta.env.VITE_API_URL}/tasks2?sort=${sort}${getFilterQuery(filter)}${
-        page > 1 ? `&pagination[page]=${page}` : ""
+        page ? `&pagination[page]=${page}` : ""
       }`;
 
     if (!request) return;
@@ -138,9 +138,10 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
 
         get().fulfilled({
           ...tasks,
-          page: update ? 1 : tasks.page,
+          page: update ? 0 : tasks.page,
           list,
           end,
+          meta: data.meta.pagination,
         });
       } else {
         const { status, error } = payload;

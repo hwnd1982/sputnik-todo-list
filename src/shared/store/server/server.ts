@@ -69,6 +69,6 @@ export const createServerSlice: StateCreator<AppStore, AppMiddleware, [], Server
     }`;
 
     get().pending(request);
-    setTimeout(get().getTasks, 5000, true);
+    setTimeout(get().getTasks, 3000, true);
   },
 });
