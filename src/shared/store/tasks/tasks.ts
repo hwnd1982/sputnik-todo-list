@@ -199,8 +199,6 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
         data: JSON.stringify({ data: { status, description } }),
       });
 
-      console.log(payload.status);
-
       if (payload.status === 200) {
         await get().getTasks(true);
       } else {
