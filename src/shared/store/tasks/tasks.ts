@@ -100,7 +100,7 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
       tasks: {
         ...tasks,
         filter,
-        page: 0,
+        page: 1,
         end: false,
       },
     });
@@ -138,7 +138,7 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
 
         get().fulfilled({
           ...tasks,
-          page: update ? 0 : tasks.page,
+          page: update ? 1 : tasks.page,
           list,
           end,
         });
