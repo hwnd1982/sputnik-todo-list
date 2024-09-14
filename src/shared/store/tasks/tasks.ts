@@ -1,8 +1,8 @@
-import axios from "axios";
 import { StateCreator } from "zustand";
 import { AppMiddleware, AppStore } from "../../../app/store/store";
 import { ServerError } from "../server/server";
 import { getFilterQuery } from "../../lib";
+import axios from "axios";
 
 export type Status = "open" | "done" | "working";
 export type Filter = Status | "favorite" | "all";
@@ -152,8 +152,12 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
           setTimeout(get().getTasks, 5000, true);
         }
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.status === 500) {
+          setTimeout(get().getTasks, 5000, true);
+        }
+      }
     }
   },
   createTask: async description => {
