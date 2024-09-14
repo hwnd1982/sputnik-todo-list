@@ -133,7 +133,9 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
         const list = [
           ...(update ? [] : tasks.list),
           ...(update ? data.data : data.data.filter(item => !tasks.list.find(({ id }) => item.id === id))),
-        ];
+        ].sort((a, b) =>
+          new Date(a.attributes.createdAt).getTime() < new Date(b.attributes.createdAt).getTime() ? -1 : 1
+        );
         const end = data.meta.pagination.total <= list.length;
 
         get().fulfilled({
@@ -196,6 +198,8 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
         },
         data: JSON.stringify({ data: { status, description } }),
       });
+
+      console.log(payload.status);
 
       if (payload.status === 200) {
         await get().getTasks(true);
