@@ -64,7 +64,7 @@ export const createServerSlice: StateCreator<AppStore, AppMiddleware, [], Server
   update: async () => {
     const limit = get().tasks.list.length;
     const { filter, sort } = get().tasks;
-    const request = `${import.meta.env.VITE_API_URL}/tasks2?sort=${sort}${getFilterQuery(filter)}${
+    const request = `${import.meta.env.VITE_API_URL}?sort=${sort}${getFilterQuery(filter)}${
       limit ? `&pagination[limit]=${limit}` : ""
     }`;
 

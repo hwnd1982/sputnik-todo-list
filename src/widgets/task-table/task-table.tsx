@@ -18,7 +18,7 @@ export function TaskTable() {
   const tasks = useAppStore.getState().tasks;
   const favorite = useAppStore.getState().favorite;
   const favoriteRef = useRef(useAppStore(state => state.favorite));
-  let filter = tasks.filter;
+
   
   useEffect(() => {
     useAppStore.subscribe((state) => (favoriteRef.current = state.favorite));
@@ -54,32 +54,8 @@ export function TaskTable() {
       key: 'status',
       dataIndex: ['attributes', 'status'],
       filterMultiple: false,
-      defaultFilteredValue: ['all'],
       filteredValue: [tasks.filter],
-      filterResetToDefaultFilteredValue: true,
-      onFilter: (value, record) => {
-        if (filter === value) return true;
-
-        if (typeof value === "string" && isFilter(value)) {
-          useAppStore.getState().setFilter(value);
-          filter = value;
-        }
-
-        return value === record.attributes.status;
-      },
-      
-      valueType: 'select',
-      className: 'status-filter-select',
-      formItemProps: {
-        rules: [
-          {
-            required: true,
-            message: 'Поле не должно быть пустым!'
-          },
-        ],
-      },
       filters: [
-        
         {
           value: 'all',
           text: 'Все',
@@ -101,6 +77,51 @@ export function TaskTable() {
           value: 'favorite',
         },
       ],
+      filterDropdown(props) {
+        if (!Array.isArray(this.filters)) return;
+
+        return (
+          <ul className={`${props.prefixCls}`} style={{listStyle: "none", margin: 0, padding: '8px', maxWidth: "max-content"}} role="menu">
+            {
+              this.filters.map((item) => {
+                const text = item.text;
+                const filter = item.value.toString() || '';
+
+                if (!isFilter(filter) || !text ) return;
+                
+                return (
+                  <li key={`ant-dropdown-item-${filter}`}>
+                    <label style={{display: 'flex', alignItems: "center"}}>
+                      <input 
+                        style={{margin: '0 5px 0 0'}}
+                        type='radio'
+                        name={'filter'}
+                        defaultChecked={filter === tasks.filter}
+                        onChange={() => {
+                          useAppStore.getState().setFilter(filter);
+                          props.confirm();
+                        }}
+                      />
+                      <span>{text}</span>
+                    </label>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        )
+      },
+      valueType: 'select',
+      className: 'status-filter-select',
+      formItemProps: {
+        rules: [
+          {
+            required: true,
+            message: 'Поле не должно быть пустым!'
+          },
+        ],
+      },
+      
       valueEnum: {
         open: {
           text: 'Создана',

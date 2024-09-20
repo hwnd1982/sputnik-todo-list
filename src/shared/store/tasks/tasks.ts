@@ -111,21 +111,14 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
     const { page, sort, filter } = get().tasks;
     const request =
       get().server.request ||
-      `${import.meta.env.VITE_API_URL}/tasks2?sort=${sort}${getFilterQuery(filter)}${
-        page ? `&pagination[page]=${page}` : ""
-      }`;
+      `${import.meta.env.VITE_API_URL}?sort=${sort}${getFilterQuery(filter)}${page ? `&pagination[page]=${page}` : ""}`;
 
     if (!request) return;
 
     get().pending(request);
 
     try {
-      const payload: Payload = await axios(request, {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_BEARER}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const payload: Payload = await axios(request);
 
       if (payload.status === 200) {
         const { data } = payload;
@@ -166,10 +159,9 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
     get().pending(null);
 
     try {
-      const payload: Payload = await axios(`${import.meta.env.VITE_API_URL}/tasks2`, {
+      const payload: Payload = await axios(`${import.meta.env.VITE_API_URL}`, {
         method: "post",
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_BEARER}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -189,10 +181,9 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
     get().pending(null);
 
     try {
-      const payload: Payload = await axios(`${import.meta.env.VITE_API_URL}/tasks2/${id}`, {
+      const payload: Payload = await axios(`${import.meta.env.VITE_API_URL}/${id}`, {
         method: "put",
         headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_BEARER}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -212,12 +203,8 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
     get().pending(null);
 
     try {
-      const payload: Payload = await axios(`${import.meta.env.VITE_API_URL}/tasks2/${id}`, {
+      const payload: Payload = await axios(`${import.meta.env.VITE_API_URL}/${id}`, {
         method: "delete",
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_BEARER}`,
-          "Content-Type": "application/json",
-        },
       });
 
       if (payload.status === 200) {
