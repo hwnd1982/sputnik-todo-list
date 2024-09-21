@@ -143,13 +143,13 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
 
         get().rejected(status, error, request);
 
-        if (status === 500) {
+        if (status === 500 || status === 401) {
           setTimeout(get().getTasks, 5000, true);
         }
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.status === 500) {
+        if (error.status === 500 || error.status === 401) {
           setTimeout(get().getTasks, 5000, true);
         }
       }
