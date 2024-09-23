@@ -217,6 +217,7 @@ export function TaskTable() {
             default: return 'bg-red';
           }
         }}
+        
         options={{reload: false, setting: false, density: false}}
         size='small'
         editable={{
