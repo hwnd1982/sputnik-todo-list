@@ -135,10 +135,6 @@ export function TaskTable() {
           text: 'В работе',
           status: 'working',
         },
-        unknown: {
-          text: 'Не определен',
-          status: 'unknown',
-        },
       },
     },
     {
