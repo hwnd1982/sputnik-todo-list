@@ -6,6 +6,11 @@ import axios from "axios";
 
 export type Status = "open" | "done" | "working";
 export type Filter = Status | "favorite" | "all";
+
+export function isStatus(value: string): value is Status {
+  return ["open", "done", "working"].includes(value);
+}
+
 export function isFilter(value: string): value is Filter {
   return ["open", "done", "working", "favorite", "all"].includes(value);
 }
@@ -14,7 +19,7 @@ export interface Task {
   id: number;
   attributes: {
     description: string;
-    status: Status;
+    status: Status | string;
     createdAt: Date;
     updatedAt: Date;
     publishedAt: Date;
@@ -134,7 +139,13 @@ export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSl
         get().fulfilled({
           ...tasks,
           page: update ? 0 : tasks.page,
-          list,
+          list: list.map(item => ({
+            ...item,
+            attributes: {
+              ...item.attributes,
+              status: isStatus(item.attributes.status) ? item.attributes.status : "unknown",
+            },
+          })),
           end,
           meta: data.meta.pagination,
         });

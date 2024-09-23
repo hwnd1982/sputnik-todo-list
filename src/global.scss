@@ -26,6 +26,14 @@ body {
   }
 }
 
+.bg-red {
+  .index-status {
+    & .ant-pro-field-index-column {
+      background-color: rgba($color: #aa0000, $alpha: .5);
+    }
+  }
+}
+
 [title="Избранное"].ant-select-item-option-disabled {
   display: none;
 }

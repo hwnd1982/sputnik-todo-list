@@ -135,6 +135,10 @@ export function TaskTable() {
           text: 'В работе',
           status: 'working',
         },
+        unknown: {
+          text: 'Не определен',
+          status: 'unknown',
+        },
       },
     },
     {
@@ -210,7 +214,7 @@ export function TaskTable() {
             case "open": return 'bg-white';
             case "working": return 'bg-blue';
             case "done": return 'bg-green';
-            default: return 'bg-white';
+            default: return 'bg-red';
           }
         }}
         options={{reload: false, setting: false, density: false}}
