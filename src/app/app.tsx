@@ -1,9 +1,9 @@
 import { ConfigProvider } from 'antd';
 import ruRU from 'antd/locale/ru_RU';
-import { TodoList } from './pages';
+import { TodoList } from '../pages';
 import './global.scss'
 
-function App() {
+export function App() {
   return (
     <>
       <ConfigProvider locale={ruRU}>
@@ -12,5 +12,3 @@ function App() {
     </>
   )
 }
-
-export default App

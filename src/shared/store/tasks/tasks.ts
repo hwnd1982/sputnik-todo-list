@@ -15,7 +15,7 @@ export function isFilter(value: string): value is Filter {
   return ["open", "done", "working", "favorite", "all"].includes(value);
 }
 
-export interface Task {
+export type Task = {
   id: number;
   attributes: {
     description: string;
@@ -24,16 +24,16 @@ export interface Task {
     updatedAt: Date;
     publishedAt: Date;
   };
-}
+};
 
-export interface MetaState {
+export type MetaState = {
   page: number;
   pageSize: number;
   pageCount: number;
   total: number;
-}
+};
 
-export interface TasksState {
+export interface ITasksState {
   list: Task[];
   page: number;
   end: boolean;
@@ -42,8 +42,8 @@ export interface TasksState {
   meta: MetaState;
 }
 
-export interface TasksSlice {
-  tasks: TasksState;
+export interface ITasksSlice {
+  tasks: ITasksState;
   nextPage: () => Promise<void>;
   getTasks: (update?: boolean) => Promise<void>;
   createTask: (description: string) => Promise<void>;
@@ -52,7 +52,7 @@ export interface TasksSlice {
   setFilter: (filter: Filter) => Promise<void>;
 }
 
-export interface Fulfilled {
+export type Fulfilled = {
   status: 200;
   data: {
     data: Task[];
@@ -60,17 +60,17 @@ export interface Fulfilled {
       pagination: MetaState;
     };
   };
-}
+};
 
-export interface Rejected {
+export type Rejected = {
   status: 400 | 401 | 403 | 404 | 500;
   data: object;
   error: ServerError;
-}
+};
 
 export type Payload = Fulfilled | Rejected;
 
-export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], TasksSlice> = (set, get) => ({
+export const createTasksSlice: StateCreator<AppStore, AppMiddleware, [], ITasksSlice> = (set, get) => ({
   tasks: {
     list: [],
     page: 0,

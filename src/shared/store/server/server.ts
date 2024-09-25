@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand";
 import { AppMiddleware, AppStore } from "../../../app/store/store";
-import { TasksState } from "../tasks";
+import { ITasksState } from "../tasks";
 import { getFilterQuery } from "../../lib";
 
 export type ServerError = {
@@ -10,20 +10,22 @@ export type ServerError = {
   details: { [key: string]: string };
 };
 
-export interface ServerSlice {
+export type ServerState = "idle" | "offline" | "pending" | "fulfilled" | "rejected";
+
+export interface IServerSlice {
   server: {
-    state: "idle" | "offline" | "pending" | "fulfilled" | "rejected";
+    state: ServerState;
     status: number | null;
     error: ServerError | null;
     request: string | null;
   };
   pending: (request: string | null) => void;
-  fulfilled: (tasks: TasksState) => void;
+  fulfilled: (tasks: ITasksState) => void;
   rejected: (status: number, error: ServerError, request: string) => void;
   update: () => void;
 }
 
-export const createServerSlice: StateCreator<AppStore, AppMiddleware, [], ServerSlice> = (set, get) => ({
+export const createServerSlice: StateCreator<AppStore, AppMiddleware, [], IServerSlice> = (set, get) => ({
   server: {
     state: "idle",
     status: null,

@@ -1,17 +1,17 @@
 import { StateCreator } from "zustand";
 import { AppMiddleware, AppStore } from "../../../app/store/store";
 
-export interface FavoriteState {
+export type FavoriteState = {
   list: number[];
-}
+};
 
-export interface FavoriteSlice {
+export interface IFavoriteSlice {
   favorite: FavoriteState;
   addFavorite: (id: number) => void;
   deleteFavorite: (id: number) => void;
 }
 
-export const createFavoriteSlice: StateCreator<AppStore, AppMiddleware, [], FavoriteSlice> = (set, get) => ({
+export const createFavoriteSlice: StateCreator<AppStore, AppMiddleware, [], IFavoriteSlice> = (set, get) => ({
   favorite: {
     list: [],
   },

@@ -2,15 +2,15 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
   createServerSlice,
-  ServerSlice,
+  IServerSlice,
   createTasksSlice,
-  TasksSlice,
+  ITasksSlice,
   createFavoriteSlice,
-  FavoriteSlice,
+  IFavoriteSlice,
 } from "../../shared";
 
 export type AppMiddleware = [["zustand/devtools", never]];
-export interface AppStore extends TasksSlice, ServerSlice, FavoriteSlice {}
+export interface AppStore extends ITasksSlice, IServerSlice, IFavoriteSlice {}
 export const useAppStore = create<AppStore>()(
   persist(
     (set, get, ...args) => ({

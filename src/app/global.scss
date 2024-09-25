@@ -34,10 +34,6 @@ body {
   }
 }
 
-[title="Избранное"].ant-select-item-option-disabled {
-  display: none;
-}
-
 .ant-table-wrapper {
   overflow: auto;
   max-width: calc(100vw - 6.1rem);

@@ -3,7 +3,7 @@ import { useAppStore } from '../../../../app';
 
 export const EndList = () => {
   const ref = useRef(null);
-  const server = useAppStore.getState().server;
+  const {server, nextPage} = useAppStore.getState();
 
   useEffect(() => {
     let observerRefValue: HTMLInputElement | null = null;
@@ -12,7 +12,7 @@ export const EndList = () => {
       const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           if (server.state === 'fulfilled') {
-            useAppStore.getState().nextPage();
+            nextPage();
           }
         }
       }, {
@@ -28,7 +28,7 @@ export const EndList = () => {
         }
       };
     }
-  }, [ref, server]);
+  }, [ref, server, nextPage]);
 
   return (
     <div ref={ref} className='' />
